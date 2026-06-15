@@ -530,47 +530,6 @@ def _heal_dead_ends_v2(grid, seed_c, seed_r, rng):
 # ═══════════════════════════════════════════
 # MAIN GENERATION — Corridor Snake Growth
 # ═══════════════════════════════════════════
-def generate_map(cols, rows, seed=None):
-    rng = random.Random(seed)
-    grid = Grid(cols, rows)
-    seed_c, seed_r = cols // 2, rows // 2
-
-    # Phase 1: Place seed — use a STRAIGHT or CURVE, NOT cross
-    # Start with a simple straight tile
-    start_dir = rng.choice([0, 1, 2, 3])
-    grid.set_tile(seed_c, seed_r, STRAIGHT, start_dir % 2)
-
-    target_exits = _choose_border_exits(cols, rows, rng)
-    max_roads = int(cols * rows * 0.35)
-
-    # Phase 2: Grow corridors from tips
-    # Initial tips: grow from seed in both directions of the straight
-    seed_ports = list(get_ports(STRAIGHT, start_dir % 2))
-    tips = [(seed_c, seed_r, d) for d in seed_ports]
-    rng.shuffle(tips)
-    road_count = 1
-
-    max_iterations = cols * rows * 2
-    iteration = 0
-
-    while tips and road_count < max_roads and iteration < max_iterations:
-        iteration += 1
-        # Pick a random tip
-        idx = rng.randint(0, len(tips) - 1)
-        tc, tr, td = tips.pop(idx)
-
-        # Don't grow from non-road tiles
-        if not grid.is_road(tc, tr):
-            continue
-
-        # Grow a corridor
-        corridor_len = rng.randint(3, max(4, min(cols, rows) // 2))
-        before = road_count
-        road_count_before = len(_all_road_cells(grid))
-
-        placed = _grow_corridor(grid, tc, tr, td, rng,
-                                max_len=corridor_len, cols=cols, rows=rows)
-        road_count = len(_all_road_cells(grid))
 
         # Find the end of the corridor and spawn branch tips
         if placed > 0:
