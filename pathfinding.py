@@ -65,6 +65,7 @@ def _bez(p0, p1, p2, steps=12):
     return pts
 
 
+# Convert A* tile path into world coordinates and apply Bézier smoothing
 def build_world_path(grid, tile_path, tile_size):
     """Convert A* tile path into smooth world-space Bézier polyline."""
     if not tile_path:
