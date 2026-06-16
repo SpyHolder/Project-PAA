@@ -7,7 +7,8 @@ import heapq
 from collections import deque
 from config import EMPTY, OPPOSITE, DIR_DELTA, get_ports
 
-
+# Core A* implementation: evaluates nodes using f(n) = g(n) + h(n)
+# where g(n) = actual cost from start, h(n) = Manhattan distance to goal
 def astar(grid, start, goal):
     """A* on road network using Manhattan distance heuristic.
     Returns (path, explored) or (None, explored)."""
